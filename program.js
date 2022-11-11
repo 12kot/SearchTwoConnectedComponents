@@ -48,8 +48,8 @@ class DFS {
         console.log(vertex + 1);
 
         for (const abj of graph[vertex]) {
-            if (graph[vertex][0] == this.key) {
-                console.log("Break")
+            if (this.keys.has(graph[vertex][0])) {
+                console.log("Break") //если мы попали на одну из т. сочленения, то конец
             }
             
             if (!this.visited[abj]) {
@@ -59,27 +59,29 @@ class DFS {
     }
 }
 
-let graph = [[0, 1, 2, 3],
-    [1, 0, 3],
-    [2, 0, 3],
-    [3, 0, 1, 2, 4],
-    [4, 5, 6, 7, 8],
-    [5, 4, 6],
-    [6, 4, 5],
-    [7, 4, 8],
-    [8, 4, 7]];
+let graph = [[0, 1, 2],
+    [1, 0, 2],
+    [2, 0, 1, 3],
+    [3, 2, 4, 5, 6],
+    [4, 3, 6],
+    [5, 3, 6],
+    [6, 3, 4, 5]];
 
 let dfs = new DFS(graph);
 let keys = dfs.JointsPoints(0);
 
-for (const key of keys) {
-    
-    dfs.visited = [];
-    dfs.key = key;
+dfs.visited = [];
+dfs.keys = keys;
 
-    console.log(`Вершина: `)
-    dfs.dfs(key);
-}
+dfs.dfs(0);
+// for (const key of keys) {
+    
+//     dfs.visited = [];
+//     dfs.keys = keys;
+
+//     console.log(`Вершина: `)
+//     dfs.dfs(0);
+// }
 
 //если в строке корня больше одногой вершины - значит он корень сочленения
        
