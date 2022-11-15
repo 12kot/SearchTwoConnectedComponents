@@ -43,45 +43,52 @@ class DFS {
         return this.vertexes;
     }
 
+    array = [];
+    arr = [];
     dfs(vertex) {
         this.visited[vertex] = true;
-        console.log(vertex + 1);
+       // console.log(vertex + 1);
 
         for (const abj of graph[vertex]) {
-            if (this.keys.has(graph[vertex][0])) {
-                console.log("Break") //если мы попали на одну из т. сочленения, то конец
-            }
-            
             if (!this.visited[abj]) {
+                this.arr.push(abj);
                 this.dfs(abj);
             }
+
+            if (graph[vertex][0] == this.keys) {
+                if (this.arr.length != 0) {
+                    this.array.push(this.arr);
+                    this.arr = [];
+                }  
+                //console.log("Break") //если мы попали на одну из т. сочленения, то конец
+            }
+            
         }
+
+        return this.array;
     }
 }
 
-let graph = [[0, 1, 2],
-    [1, 0, 2],
-    [2, 0, 1, 3],
-    [3, 2, 4, 5, 6],
-    [4, 3, 6],
-    [5, 3, 6],
-    [6, 3, 4, 5]];
+let graph = [[0, 1],
+    [1, 0, 2, 3],
+    [2, 1, 4],
+    [3, 1],
+    [4, 2]];
 
 let dfs = new DFS(graph);
 let keys = dfs.JointsPoints(0);
 
 dfs.visited = [];
-dfs.keys = keys;
 
-dfs.dfs(0);
-// for (const key of keys) {
+ for (const key of keys) {
     
-//     dfs.visited = [];
-//     dfs.keys = keys;
+     dfs.visited = [];
+     dfs.keys = key;
+     dfs.array = [];
 
-//     console.log(`Вершина: `)
-//     dfs.dfs(0);
-// }
+     console.log(`Вершина: ${key}`)
+     console.log(dfs.dfs(key));
+ }
 
 //если в строке корня больше одногой вершины - значит он корень сочленения
        
